@@ -12,8 +12,9 @@ import java.io.InputStream;
 
 public class GamePanel extends JPanel implements ActionListener {
 
-    public ButtonPanel gridPanel = new ButtonPanel();
+    public ButtonPanel buttonPanel = new ButtonPanel();
     public WordPanel wordPanel = new WordPanel();
+    public FinalWordPanel finalWordPanel = new FinalWordPanel();
     Font backTo1982;
     public JButton startButton = new JButton("START");
     public JProgressBar timerBar = new JProgressBar(0,60);
@@ -36,8 +37,9 @@ public class GamePanel extends JPanel implements ActionListener {
             throw new RuntimeException(e);
         }
 
-        this.add(gridPanel);
-        this.add(wordPanel);
+        this.add(buttonPanel);
+        //this.add(wordPanel);
+        this.add(FinalWordPanel.panel);
         
         setStartButton();
         this.add(startButton);
@@ -63,7 +65,6 @@ public class GamePanel extends JPanel implements ActionListener {
         startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,5,true));
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
                 startCountdown();
             }
         });
@@ -98,9 +99,13 @@ public class GamePanel extends JPanel implements ActionListener {
         timeLabel.setFont(backTo1982.deriveFont(Font.BOLD,25));
 
     }
-    public void startCountdown() {
+    public  void startCountdown() {
         remainingTime = 60;
         timer.start();
+    }
+
+    public void switchButtons() {
+
     }
     public void actionPerformed(ActionEvent e) {
         remainingTime--;

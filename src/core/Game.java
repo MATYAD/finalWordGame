@@ -11,6 +11,6 @@ public class Game {
     public Game() {
         this.welcomePanel = new WelcomePanel();
         this.gameFrame = new GameFrame();
-        //this.welcomePanel.requestFocus();
+        this.welcomePanel.requestFocus();
     }
 }

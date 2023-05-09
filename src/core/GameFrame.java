@@ -31,6 +31,7 @@ public class GameFrame {
                     welcomePanel.setVisible(false);
                     GamePanel gamePanel = new GamePanel();
                     frame.add(gamePanel);
+
                 }
             }
         });
