@@ -5,7 +5,6 @@ import core.welcomePanel.WelcomePanel;
 
 public class Game {
     private GameFrame gameFrame;
-    private GamePanel gamePanel;
     private WelcomePanel welcomePanel;
 
     public Game() {

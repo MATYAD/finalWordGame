@@ -32,10 +32,9 @@ public class GridFrame implements ActionListener {
 
         try {
             InputStream is = getClass().getResourceAsStream("/res/backTo1982.TTF");
+            assert is != null;
             backTo1982 = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 

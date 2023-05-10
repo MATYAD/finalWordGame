@@ -12,7 +12,6 @@ import java.io.InputStream;
 public class WelcomePanel extends JPanel implements ActionListener {
 
 
-    GridFrame gridFrame;
     Font backTo1982;
     private final JLabel gameNameLabel = new JLabel();
     private final JButton exitButton = new JButton();
@@ -33,10 +32,9 @@ public class WelcomePanel extends JPanel implements ActionListener {
 
         try {
             InputStream is = getClass().getResourceAsStream("/res/backTo1982.TTF");
+            assert is != null;
             backTo1982 = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 

@@ -2,8 +2,6 @@ package core.gamePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -12,7 +10,7 @@ import java.util.ArrayList;
 public class FinalWordPanel{
     Font backTo1982;
     public static JPanel panel = new JPanel();
-    public static ArrayList<JButton> buttonList = new ArrayList<JButton>();
+    public static ArrayList<JButton> buttonList = new ArrayList<>();
     public FinalWordPanel() {
         panel.setLayout(new GridLayout(1, 6));
         panel.setBounds(100,520,650,150);
@@ -21,10 +19,9 @@ public class FinalWordPanel{
 
         try {
             InputStream is = getClass().getResourceAsStream("/res/backTo1982.TTF");
+            assert is != null;
             backTo1982 = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -40,13 +37,11 @@ public class FinalWordPanel{
                 buttonList.get(i).setFocusable(false);
 
                 final int index = i;
-                buttonList.get(i).addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource()==buttonList.get(index)) {
-                            buttonList.get(index).setText("");
-                        }
-
+                buttonList.get(i).addActionListener(e -> {
+                    if (e.getSource()==buttonList.get(index)) {
+                        buttonList.get(index).setText("");
                     }
+
                 });
 
             }

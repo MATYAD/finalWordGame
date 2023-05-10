@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -14,7 +15,8 @@ public class GamePanel extends JPanel implements ActionListener {
     public ButtonPanel buttonPanel = new ButtonPanel();
     public FinalWordPanel finalWordPanel = new FinalWordPanel();
     Font backTo1982;
-    public JButton startButton = new JButton("START");
+    Random random = new Random();
+    public static JButton startButton = new JButton("START");
     public JProgressBar timerBar = new JProgressBar(0,60);
     public Timer timer = new Timer(1000,this);
     public JLabel timeLabel = new JLabel();
@@ -23,8 +25,8 @@ public class GamePanel extends JPanel implements ActionListener {
     public JButton exitButton = new JButton("EXIT");
     public static JButton backButton = new JButton("BACK");
     public int remainingTime;
-    public ArrayList<String> letters = new ArrayList<String>();
-    public ArrayList<String> usedWords = new ArrayList<String>();
+    public ArrayList<String> letters = new ArrayList<>();
+    public ArrayList<String> usedWords = new ArrayList<>();
     boolean containsWord;
     public String finalWord;
     public int score = 0;
@@ -36,10 +38,9 @@ public class GamePanel extends JPanel implements ActionListener {
 
         try {
             InputStream is = getClass().getResourceAsStream("/res/backTo1982.TTF");
+            assert is != null;
             backTo1982 = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -47,7 +48,7 @@ public class GamePanel extends JPanel implements ActionListener {
         this.add(FinalWordPanel.panel);
         
         setStartButton();
-        //this.add(startButton);
+        this.add(startButton);
         setScoreLabel();
         this.add(scoreLabel);
 
@@ -68,7 +69,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
     
     public void setStartButton() {
-        startButton.setBounds(450, 25, 100, 50);
+        startButton.setBounds(245, 25, 100, 50);
         startButton.setFont(backTo1982.deriveFont(Font.BOLD,15));
         startButton.setForeground(Color.BLACK);
         startButton.setBackground(Color.DARK_GRAY);
@@ -78,7 +79,9 @@ public class GamePanel extends JPanel implements ActionListener {
         startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,5,true));
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                startCountdown();
+                if (e.getSource()==startButton) {
+                    startCountdown();
+                }
             }
         });
     }
@@ -116,45 +119,43 @@ public class GamePanel extends JPanel implements ActionListener {
         checkButton.setHorizontalAlignment(JButton.CENTER);
         checkButton.setFocusable(false);
         checkButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,8,true));
-        checkButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource()==checkButton) {
-                    for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
-                        if (FinalWordPanel.buttonList.get(i).getText().matches("[A-Z]")) {
-                            letters.add(i,FinalWordPanel.buttonList.get(i).getText());
-                        }
+        checkButton.addActionListener(e -> {
+            if (e.getSource()==checkButton) {
+                for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
+                    if (FinalWordPanel.buttonList.get(i).getText().matches("[A-Z]")) {
+                        letters.add(i,FinalWordPanel.buttonList.get(i).getText());
                     }
-                    StringBuffer stringBuffer = new StringBuffer();
-                    for (int j=0; j<letters.size(); j++) {
-                        stringBuffer.append(letters.get(j));
-                    }
-                    finalWord = stringBuffer.toString();
-                    letters.clear();
+                }
+                StringBuffer stringBuffer = new StringBuffer();
+                for (String letter : letters) {
+                    stringBuffer.append(letter);
+                }
+                finalWord = stringBuffer.toString();
+                letters.clear();
 
-                    try {
-                        File wordsFile = new File("src/res/words.txt");
-                        Scanner scanner = new Scanner(wordsFile);
+                try {
+                    File wordsFile = new File("src/res/words.txt");
+                    Scanner scanner = new Scanner(wordsFile);
 
-                        while (scanner.hasNextLine()) {
-                            String line = scanner.nextLine();
-                            if ((line.contains(finalWord) & containsWord == usedWords.contains(finalWord))) {
-                                score += finalWord.length()*100;
-                                scoreLabel.setText(String.valueOf(score));
-                                usedWords.add(finalWord);
-                                for (int i = 0; i <FinalWordPanel.buttonList.size(); i++) {
-                                    FinalWordPanel.buttonList.get(i).setText("");
-                                }
-                                scanner.close();
-                                return;
+                    while (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        if ((line.contains(finalWord) & containsWord == usedWords.contains(finalWord))) {
+                            score += finalWord.length()*100;
+                            scoreLabel.setText(String.valueOf(score));
+                            usedWords.add(finalWord);
+                            for (int i = 0; i <FinalWordPanel.buttonList.size(); i++) {
+                                FinalWordPanel.buttonList.get(i).setText("");
                             }
+                            scanner.close();
+                            return;
                         }
-                        for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
-                            FinalWordPanel.buttonList.get(i).setText("");
-                        }
-
-                    } catch (FileNotFoundException ex) {
-                        throw new RuntimeException(ex);
                     }
+                    for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
+                        FinalWordPanel.buttonList.get(i).setText("");
+                    }
+
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });
@@ -177,7 +178,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void setTimeLabel() {
-        timeLabel.setBounds(625,25,200,50);
+        timeLabel.setBounds(890,75,100,50);
         timeLabel.setVerticalAlignment(JLabel.CENTER);
         timeLabel.setHorizontalAlignment(JLabel.CENTER);
         timeLabel.setForeground(Color.BLACK);

@@ -17,8 +17,8 @@ public class ButtonPanel extends JPanel {
     static int ySize = Integer.parseInt(GridFrame.yTextField.getText());
 
     public JButton[] buttons;
+    public  int charIndex;
 
-    public JButton curentButton = new JButton();
     public static String[] nameStrings = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};
     public ButtonPanel() {
         this.setLayout(new GridLayout(ySize, xSize));
@@ -28,10 +28,9 @@ public class ButtonPanel extends JPanel {
 
         try {
             InputStream is = getClass().getResourceAsStream("/res/backTo1982.TTF");
+            assert is != null;
             backTo1982 = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (FontFormatException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (FontFormatException | IOException e) {
             throw new RuntimeException(e);
         }
 
@@ -39,15 +38,16 @@ public class ButtonPanel extends JPanel {
     }
 
     public void setGridSize() {
-
         int numOfButtons = xSize * ySize;
         buttons = new JButton[numOfButtons];
 
         for (int i = 0; i < numOfButtons; i++){
             buttons[i] = new JButton();
             this.add(buttons[i]);
-            int charIndex = random.nextInt(26);
-            buttons[i].setText(nameStrings[charIndex]);
+            //charIndex = random.nextInt(26);
+            //buttons[i].setText(nameStrings[charIndex]);
+            buttons[i].setText("");
+            buttons[i].setEnabled(false);
             buttons[i].setBackground(Color.DARK_GRAY);
             buttons[i].setForeground(Color.BLACK);
             buttons[i].setFont(backTo1982.deriveFont(Font.BOLD,50));
@@ -55,29 +55,41 @@ public class ButtonPanel extends JPanel {
             buttons[i].setFocusable(false);
 
             final int index = i;
-            buttons[i].addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (e.getSource()==buttons[index]){
-                        if (FinalWordPanel.buttonList.get(0).getText().isEmpty()) {
-                            FinalWordPanel.buttonList.get(0).setText(buttons[index].getText());
-                        } else if (FinalWordPanel.buttonList.get(1).getText().isEmpty()) {
-                            FinalWordPanel.buttonList.get(1).setText(buttons[index].getText());
-                        } else if (FinalWordPanel.buttonList.get(2).getText().isEmpty()) {
-                            FinalWordPanel.buttonList.get(2).setText(buttons[index].getText());
-                        } else if (FinalWordPanel.buttonList.get(3).getText().isEmpty()) {
-                            FinalWordPanel.buttonList.get(3).setText(buttons[index].getText());
-                        } else if (FinalWordPanel.buttonList.get(4).getText().isEmpty()) {
-                            FinalWordPanel.buttonList.get(4).setText(buttons[index].getText());
-                        } else if (FinalWordPanel.buttonList.get(5).getText().isEmpty()) {
-                            FinalWordPanel.buttonList.get(5).setText(buttons[index].getText());
-                        }
+            buttons[i].addActionListener(e -> {
+                if (e.getSource()==buttons[index]){
+                    if (FinalWordPanel.buttonList.get(0).getText().isEmpty()) {
+                        FinalWordPanel.buttonList.get(0).setText(buttons[index].getText());
+                    } else if (FinalWordPanel.buttonList.get(1).getText().isEmpty()) {
+                        FinalWordPanel.buttonList.get(1).setText(buttons[index].getText());
+                    } else if (FinalWordPanel.buttonList.get(2).getText().isEmpty()) {
+                        FinalWordPanel.buttonList.get(2).setText(buttons[index].getText());
+                    } else if (FinalWordPanel.buttonList.get(3).getText().isEmpty()) {
+                        FinalWordPanel.buttonList.get(3).setText(buttons[index].getText());
+                    } else if (FinalWordPanel.buttonList.get(4).getText().isEmpty()) {
+                        FinalWordPanel.buttonList.get(4).setText(buttons[index].getText());
+                    } else if (FinalWordPanel.buttonList.get(5).getText().isEmpty()) {
+                        FinalWordPanel.buttonList.get(5).setText(buttons[index].getText());
+                    }
 
+                }
+
+
+            });
+        }
+        GamePanel.startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource()==GamePanel.startButton) {
+                    for (int i = 0; i<numOfButtons;i++) {
+                        charIndex = random.nextInt(26);
+                        buttons[i].setText(nameStrings[charIndex]);
+                        buttons[i].setEnabled(true);
                     }
 
 
                 }
-            });
-        }
+
+            }
+        });
     }
 
 }

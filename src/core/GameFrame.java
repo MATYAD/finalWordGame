@@ -6,8 +6,6 @@ import core.welcomePanel.WelcomePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GameFrame {
     public JFrame frame;
@@ -26,27 +24,23 @@ public class GameFrame {
         frame.setLocationRelativeTo(null);
 
         frame.add(welcomePanel);
-        welcomePanel.playButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource()==welcomePanel.playButton) {
-                    welcomePanel.setVisible(false);
-                    gamePanel = new GamePanel();
-                    frame.add(gamePanel);
+        welcomePanel.playButton.addActionListener(e -> {
+            if (e.getSource()==welcomePanel.playButton) {
+                welcomePanel.setVisible(false);
+                gamePanel = new GamePanel();
+                frame.add(gamePanel);
 
-                }
             }
         });
-        GamePanel.backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
-                    FinalWordPanel.buttonList.get(i).setText("");
-                    gamePanel.setVisible(false);
-                    welcomePanel.setVisible(true);
-                }
-
-
-
+        GamePanel.backButton.addActionListener(e -> {
+            for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
+                FinalWordPanel.buttonList.get(i).setText("");
+                gamePanel.setVisible(false);
+                welcomePanel.setVisible(true);
             }
+
+
+
         });
         frame.setVisible(true);
     }
