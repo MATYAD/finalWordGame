@@ -1,5 +1,6 @@
 package core;
 
+import core.gamePanel.FinalWordPanel;
 import core.gamePanel.GamePanel;
 import core.welcomePanel.WelcomePanel;
 
@@ -12,6 +13,7 @@ public class GameFrame {
     public JFrame frame;
     ImageIcon image = new ImageIcon("src/res/Icon.png");
     public WelcomePanel welcomePanel = new WelcomePanel();
+    public GamePanel gamePanel;
     public GameFrame() {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,15 +26,26 @@ public class GameFrame {
         frame.setLocationRelativeTo(null);
 
         frame.add(welcomePanel);
-
         welcomePanel.playButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource()==welcomePanel.playButton) {
                     welcomePanel.setVisible(false);
-                    GamePanel gamePanel = new GamePanel();
+                    gamePanel = new GamePanel();
                     frame.add(gamePanel);
 
                 }
+            }
+        });
+        GamePanel.backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
+                    FinalWordPanel.buttonList.get(i).setText("");
+                    gamePanel.setVisible(false);
+                    welcomePanel.setVisible(true);
+                }
+
+
+
             }
         });
         frame.setVisible(true);

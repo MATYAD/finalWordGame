@@ -1,27 +1,33 @@
 package core.gamePanel;
 
-import core.gamePanel.ButtonPanel;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class GamePanel extends JPanel implements ActionListener {
 
     public ButtonPanel buttonPanel = new ButtonPanel();
-    public WordPanel wordPanel = new WordPanel();
     public FinalWordPanel finalWordPanel = new FinalWordPanel();
     Font backTo1982;
     public JButton startButton = new JButton("START");
     public JProgressBar timerBar = new JProgressBar(0,60);
     public Timer timer = new Timer(1000,this);
     public JLabel timeLabel = new JLabel();
+    public JLabel scoreLabel = new JLabel();
+    public static JButton checkButton = new JButton("✓");
     public JButton exitButton = new JButton("EXIT");
+    public static JButton backButton = new JButton("BACK");
     public int remainingTime;
+    public ArrayList<String> letters = new ArrayList<String>();
+    public ArrayList<String> usedWords = new ArrayList<String>();
+    boolean containsWord;
+    public String finalWord;
+    public int score = 0;
 
     public GamePanel() {
         this.setLayout(null);
@@ -38,14 +44,21 @@ public class GamePanel extends JPanel implements ActionListener {
         }
 
         this.add(buttonPanel);
-        //this.add(wordPanel);
         this.add(FinalWordPanel.panel);
         
         setStartButton();
-        this.add(startButton);
+        //this.add(startButton);
+        setScoreLabel();
+        this.add(scoreLabel);
 
         setExitButton();
         this.add(exitButton);
+
+        setBackButton();
+        this.add(backButton);
+
+        setCheckButton();
+        this.add(checkButton);
 
         setTimerBar();
         this.add(timerBar);
@@ -80,7 +93,79 @@ public class GamePanel extends JPanel implements ActionListener {
         exitButton.setFocusable(false);
         exitButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,5,true));
         exitButton.addActionListener(this);
+    }
 
+    public void setBackButton() {
+        backButton.setBounds(135,25,100,50);
+        backButton.setFont(backTo1982.deriveFont(Font.BOLD,15));
+        backButton.setForeground(Color.BLACK);
+        backButton.setBackground(Color.DARK_GRAY);
+        backButton.setVerticalAlignment(JButton.CENTER);
+        backButton.setHorizontalAlignment(JButton.CENTER);
+        backButton.setFocusable(false);
+        backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,5,true));
+
+    }
+
+    public void setCheckButton() {
+        checkButton.setBounds(775,520,125,150);
+        checkButton.setFont(new Font("Dialog", Font.BOLD,70));
+        checkButton.setForeground(Color.BLACK);
+        checkButton.setBackground(Color.DARK_GRAY);
+        checkButton.setVerticalAlignment(JButton.CENTER);
+        checkButton.setHorizontalAlignment(JButton.CENTER);
+        checkButton.setFocusable(false);
+        checkButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,8,true));
+        checkButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource()==checkButton) {
+                    for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
+                        if (FinalWordPanel.buttonList.get(i).getText().matches("[A-Z]")) {
+                            letters.add(i,FinalWordPanel.buttonList.get(i).getText());
+                        }
+                    }
+                    StringBuffer stringBuffer = new StringBuffer();
+                    for (int j=0; j<letters.size(); j++) {
+                        stringBuffer.append(letters.get(j));
+                    }
+                    finalWord = stringBuffer.toString();
+                    letters.clear();
+
+                    try {
+                        File wordsFile = new File("src/res/words.txt");
+                        Scanner scanner = new Scanner(wordsFile);
+
+                        while (scanner.hasNextLine()) {
+                            String line = scanner.nextLine();
+                            if ((line.contains(finalWord) & containsWord == usedWords.contains(finalWord))) {
+                                score += finalWord.length()*100;
+                                scoreLabel.setText(String.valueOf(score));
+                                usedWords.add(finalWord);
+                                for (int i = 0; i <FinalWordPanel.buttonList.size(); i++) {
+                                    FinalWordPanel.buttonList.get(i).setText("");
+                                }
+                                scanner.close();
+                                return;
+                            }
+                        }
+                        for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
+                            FinalWordPanel.buttonList.get(i).setText("");
+                        }
+
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
+    }
+    
+    public void setScoreLabel() {
+        scoreLabel.setBounds(425, 25, 150, 70);
+        scoreLabel.setVerticalAlignment(JLabel.CENTER);
+        scoreLabel.setHorizontalAlignment(JLabel.CENTER);
+        scoreLabel.setForeground(Color.BLACK);
+        scoreLabel.setFont(backTo1982.deriveFont(Font.BOLD,30));
     }
 
     public void setTimerBar() {
@@ -104,10 +189,8 @@ public class GamePanel extends JPanel implements ActionListener {
         timer.start();
     }
 
-    public void switchButtons() {
-
-    }
     public void actionPerformed(ActionEvent e) {
+
         remainingTime--;
         timerBar.setValue(remainingTime);
         timeLabel.setText(String.valueOf(remainingTime));
@@ -116,7 +199,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 timer.stop();
         }
 
-        if (e.getSource()==exitButton){
+        if (e.getSource()==exitButton) {
             System.exit(1);
         }
     }

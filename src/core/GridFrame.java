@@ -58,8 +58,8 @@ public class GridFrame implements ActionListener {
 
     public void setXTextField() {
         xTextField.setBounds(275,150,100,50);
-        xTextField.setText("3");
-        xTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,true));
+        xTextField.setText("4");
+        xTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK,3,true));
         xTextField.setBackground(Color.DARK_GRAY);
         xTextField.setFont(backTo1982.deriveFont(Font.BOLD,25));
         xTextField.setForeground(Color.BLACK);
@@ -68,21 +68,17 @@ public class GridFrame implements ActionListener {
         xTextField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char input = e.getKeyChar();
-                if ((input < '0' || input > '9') && input != '\b') {
+                if (input == '0' || !Character.isDigit(input)) {
                     e.consume();
                 }
             }
         });
-        if (Integer.parseInt(xTextField.getText()) >=8) {
-            xTextField.setText("3");
-
-        }
     }
 
     public void setYTextField() {
         yTextField.setBounds(275,250,100,50);
-        yTextField.setText("3");
-        yTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,true));
+        yTextField.setText("4");
+        yTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK,3,true));
         yTextField.setBackground(Color.DARK_GRAY);
         yTextField.setFont(backTo1982.deriveFont(Font.BOLD,25));
         yTextField.setForeground(Color.BLACK);
@@ -92,7 +88,7 @@ public class GridFrame implements ActionListener {
         yTextField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char input = e.getKeyChar();
-                if ((input < '0' || input > '9') && input != '\b') {
+                if (input == '0' || !Character.isDigit(input)) {
                     e.consume();
                 }
             }
@@ -130,20 +126,13 @@ public class GridFrame implements ActionListener {
     }
 
     public void setSetButton() {
-        if (xTextField.getText() != "0") {
-            setButton.setEnabled(true);
-        } else if (yTextField.getText() != "0") {
-            setButton.setEnabled(true);
-        }else {
-            setButton.setEnabled(false);
-        }
         setButton.addActionListener(this);
         setButton.setFocusable(false);
         setButton.setText("SET");
         setButton.setVerticalAlignment(JButton.CENTER);
         setButton.setHorizontalAlignment(JButton.CENTER);
         setButton.setBackground(Color.DARK_GRAY);
-        setButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,2,true));
+        setButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,3,true));
         setButton.setFont(backTo1982.deriveFont(Font.BOLD,25));
         setButton.setForeground(Color.BLACK);
         setButton.setBounds(400,200,100,50);
@@ -152,6 +141,13 @@ public class GridFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==setButton) {
             frame.dispose();
+
+            if (yTextField.getText().isEmpty()) {
+                yTextField.setText("4");
+            }
+            if (xTextField.getText().isEmpty()) {
+                xTextField.setText("4");
+            }
             System.out.println(xTextField.getText());
             System.out.println(yTextField.getText());
         }

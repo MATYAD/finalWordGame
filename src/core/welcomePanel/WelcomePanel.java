@@ -62,38 +62,38 @@ public class WelcomePanel extends JPanel implements ActionListener {
     }
 
     public void setGameNameLabel() {
-        gameNameLabel.setBounds(250,50,500,250);
+        gameNameLabel.setBounds(100,50,800,175);
         gameNameLabel.setText("WORD GAME");
         gameNameLabel.setForeground(Color.BLACK);
-        gameNameLabel.setFont(backTo1982.deriveFont(Font.BOLD,60));
+        gameNameLabel.setFont(backTo1982.deriveFont(Font.BOLD,90));
         gameNameLabel.setVerticalAlignment(JLabel.CENTER);
         gameNameLabel.setHorizontalAlignment(JLabel.CENTER);
     }
 
     public void setLettersLabels() {
-        nLabel.setBounds(50,50,50,69);
-        nLabel.setFont(backTo1982.deriveFont(Font.BOLD,50));
+        nLabel.setBounds(650,220,80,85);
+        nLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         nLabel.setForeground(Color.BLACK);
-        eLabel.setBounds(500,20,50,69);
-        eLabel.setFont(backTo1982.deriveFont(Font.BOLD,50));
+        eLabel.setBounds(275,380,80,85);
+        eLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         eLabel.setForeground(Color.BLACK);
-        lLabel.setBounds(200,250,50,69);
-        lLabel.setFont(backTo1982.deriveFont(Font.BOLD,50));
+        lLabel.setBounds(100,250,80,85);
+        lLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         lLabel.setForeground(Color.BLACK);
-        iLabel.setBounds(100,420,50,69);
-        iLabel.setFont(backTo1982.deriveFont(Font.BOLD,50));
+        iLabel.setBounds(100,420,80,85);
+        iLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         iLabel.setForeground(Color.BLACK);
-        sLabel.setBounds(800,350,50,69);
-        sLabel.setFont(backTo1982.deriveFont(Font.BOLD,50));
+        sLabel.setBounds(800,350,80,85);
+        sLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         sLabel.setForeground(Color.BLACK);
-        e2Label.setBounds(200,600,50,69);
-        e2Label.setFont(backTo1982.deriveFont(Font.BOLD,50));
+        e2Label.setBounds(200,575,80,85);
+        e2Label.setFont(backTo1982.deriveFont(Font.BOLD,70));
         e2Label.setForeground(Color.BLACK);
-        kLabel.setBounds(700,500,50,69);
-        kLabel.setFont(backTo1982.deriveFont(Font.BOLD,50));
+        kLabel.setBounds(700,525,80,85);
+        kLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         kLabel.setForeground(Color.BLACK);
-        heartLabel.setBounds(800,150,100,100);
-        heartLabel.setFont(backTo1982.deriveFont(Font.BOLD,50));
+        heartLabel.setBounds(825,550,125,125);
+        heartLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         heartLabel.setForeground(Color.BLACK);
 
     }
