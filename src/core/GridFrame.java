@@ -147,8 +147,6 @@ public class GridFrame implements ActionListener {
             if (xTextField.getText().isEmpty()) {
                 xTextField.setText("4");
             }
-            System.out.println(xTextField.getText());
-            System.out.println(yTextField.getText());
         }
 
     }

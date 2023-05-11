@@ -16,6 +16,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
     private final JLabel gameNameLabel = new JLabel();
     private final JButton exitButton = new JButton();
     public JButton playButton = new JButton();
+    public static JSlider slider = new JSlider(20,120,60);
+    JLabel timeLabel = new JLabel("SET TIME");
     private final JButton gridButton = new JButton();
     private final JLabel nLabel = new JLabel("N");
     private final JLabel eLabel = new JLabel("E");
@@ -42,11 +44,15 @@ public class WelcomePanel extends JPanel implements ActionListener {
         setLettersLabels();
         setPlayButton();
         setGridButton();
+        setTimeLabel();
+        setSlider();
         setExitButton();
 
         this.add(gameNameLabel);
         this.add(playButton);
         this.add(gridButton);
+        this.add(timeLabel);
+        this.add(slider);
         this.add(exitButton);
 
         this.add(nLabel);
@@ -81,13 +87,13 @@ public class WelcomePanel extends JPanel implements ActionListener {
         iLabel.setBounds(100,420,80,85);
         iLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         iLabel.setForeground(Color.BLACK);
-        sLabel.setBounds(800,350,80,85);
+        sLabel.setBounds(750,375,80,85);
         sLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         sLabel.setForeground(Color.BLACK);
-        e2Label.setBounds(200,575,80,85);
+        e2Label.setBounds(870,275,80,85);
         e2Label.setFont(backTo1982.deriveFont(Font.BOLD,70));
         e2Label.setForeground(Color.BLACK);
-        kLabel.setBounds(700,525,80,85);
+        kLabel.setBounds(675,525,80,85);
         kLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         kLabel.setForeground(Color.BLACK);
         heartLabel.setBounds(825,550,125,125);
@@ -97,7 +103,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
     }
 
     public void setExitButton() {
-        exitButton.setBounds(400,550,200,100);
+        exitButton.setBounds(425,525,150,75);
         exitButton.setText("EXIT");
         exitButton.setFont(backTo1982.deriveFont(Font.BOLD,30));
         exitButton.setForeground(Color.BLACK);
@@ -110,7 +116,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
     }
     
     public void setGridButton() {
-        gridButton.setBounds(400,425,200,100);
+        gridButton.setBounds(425,400,150,75);
         gridButton.setText("GRID");
         gridButton.setFont(backTo1982.deriveFont(Font.BOLD,30));
         gridButton.setForeground(Color.BLACK);
@@ -123,7 +129,7 @@ public class WelcomePanel extends JPanel implements ActionListener {
     }
 
     public void setPlayButton() {
-        playButton.setBounds(400,300,200,100);
+        playButton.setBounds(425,275,150,75);
         playButton.setText("PLAY");
         playButton.setFont(backTo1982.deriveFont(Font.BOLD,30));
         playButton.setForeground(Color.BLACK);
@@ -136,6 +142,26 @@ public class WelcomePanel extends JPanel implements ActionListener {
         playButton.addActionListener(this);
     }
 
+    public void setTimeLabel() {
+        timeLabel.setBounds(135,550,180,50);
+        timeLabel.setForeground(Color.BLACK);
+        timeLabel.setFont(backTo1982.deriveFont(Font.BOLD,25));
+        timeLabel.setVerticalAlignment(JLabel.CENTER);
+        timeLabel.setHorizontalAlignment(JLabel.CENTER);
+    }
+
+    public void setSlider() {
+        slider.setBounds(25,610,400,50);
+        slider.setBackground(Color.DARK_GRAY);
+        slider.setForeground(Color.BLACK);
+        slider.setFont(backTo1982.deriveFont(Font.BOLD,15));
+        slider.setPaintTrack(true);
+        slider.setMajorTickSpacing(20);
+        slider.setPaintLabels(true);
+        slider.setOpaque(false);
+        slider.setUI(new JSliderUI(slider));
+
+    }
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==exitButton) {
             System.exit(1);

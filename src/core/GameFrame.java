@@ -2,6 +2,7 @@ package core;
 
 import core.gamePanel.FinalWordPanel;
 import core.gamePanel.GamePanel;
+import core.gamePanel.OverviewFrame;
 import core.welcomePanel.WelcomePanel;
 
 import javax.swing.*;
@@ -32,14 +33,23 @@ public class GameFrame {
 
             }
         });
+
         GamePanel.backButton.addActionListener(e -> {
-            for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
-                FinalWordPanel.buttonList.get(i).setText("");
+            if (e.getSource()==GamePanel.backButton) {
+                for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
+                    FinalWordPanel.buttonList.get(i).setText("");
+                    gamePanel.setVisible(false);
+                    welcomePanel.setVisible(true);
+                    GamePanel.startButton.setEnabled(true);
+                }
+            }
+        });
+
+        OverviewFrame.homeButton.addActionListener(e -> {
+            if (e.getSource()==OverviewFrame.homeButton) {
                 gamePanel.setVisible(false);
                 welcomePanel.setVisible(true);
             }
-
-
 
         });
         frame.setVisible(true);

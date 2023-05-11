@@ -16,7 +16,7 @@ public class ButtonPanel extends JPanel {
     static int xSize = Integer.parseInt(GridFrame.xTextField.getText());
     static int ySize = Integer.parseInt(GridFrame.yTextField.getText());
 
-    public JButton[] buttons;
+    public static JButton[] buttons;
     public  int charIndex;
 
     public static String[] nameStrings = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"};

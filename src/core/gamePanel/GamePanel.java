@@ -1,5 +1,7 @@
 package core.gamePanel;
 
+import core.welcomePanel.WelcomePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,10 +19,10 @@ public class GamePanel extends JPanel implements ActionListener {
     Font backTo1982;
     Random random = new Random();
     public static JButton startButton = new JButton("START");
-    public JProgressBar timerBar = new JProgressBar(0,60);
+    public JProgressBar timerBar = new JProgressBar(0,WelcomePanel.slider.getValue());
     public Timer timer = new Timer(1000,this);
     public JLabel timeLabel = new JLabel();
-    public JLabel scoreLabel = new JLabel();
+    public static JLabel scoreLabel = new JLabel();
     public static JButton checkButton = new JButton("✓");
     public JButton exitButton = new JButton("EXIT");
     public static JButton backButton = new JButton("BACK");
@@ -29,7 +31,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public ArrayList<String> usedWords = new ArrayList<>();
     boolean containsWord;
     public String finalWord;
-    public int score = 0;
+    public static int score = 0;
 
     public GamePanel() {
         this.setLayout(null);
@@ -80,6 +82,7 @@ public class GamePanel extends JPanel implements ActionListener {
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource()==startButton) {
+                    startButton.setEnabled(false);
                     startCountdown();
                 }
             }
@@ -139,7 +142,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
                     while (scanner.hasNextLine()) {
                         String line = scanner.nextLine();
-                        if ((line.contains(finalWord) & containsWord == usedWords.contains(finalWord))) {
+                        if ((line.contains(finalWord) && containsWord == usedWords.contains(finalWord) && line.length() == finalWord.length())) {
                             score += finalWord.length()*100;
                             scoreLabel.setText(String.valueOf(score));
                             usedWords.add(finalWord);
@@ -186,7 +189,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     }
     public  void startCountdown() {
-        remainingTime = 60;
+        remainingTime = WelcomePanel.slider.getValue();
         timer.start();
     }
 
@@ -197,7 +200,9 @@ public class GamePanel extends JPanel implements ActionListener {
         timeLabel.setText(String.valueOf(remainingTime));
 
         if (remainingTime == 0) {
-                timer.stop();
+            startButton.setEnabled(true);
+            OverviewFrame frame = new OverviewFrame();
+            timer.stop();
         }
 
         if (e.getSource()==exitButton) {
