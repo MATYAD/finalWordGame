@@ -2,10 +2,7 @@ package core.gamePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 public class OverviewFrame {
     JFrame frame = new JFrame();
@@ -13,7 +10,8 @@ public class OverviewFrame {
     ImageIcon icon = new ImageIcon("src/res/Icon.png");
     public JLabel gameOverLabel = new JLabel("GAME OVER");
     public JLabel scoreLabel = new JLabel("YOUR SCORE IS : " + GamePanel.score);
-    public JLabel bestScoreLabel = new JLabel("BEST SCORE IS : ");
+    public static JLabel bestScoreLabel = new JLabel();
+    String bestScore;
     public JButton playAgainButton = new JButton("↺");
     public static JButton homeButton = new JButton("⌂");
 
@@ -72,11 +70,22 @@ public class OverviewFrame {
     }
 
     public void setBestScoreLabel() {
+        try {
+            FileReader reader = new FileReader("src/res/bestScore.txt");
+            BufferedReader buffReader = new BufferedReader(reader);
+            bestScore = buffReader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         bestScoreLabel.setBounds(50, 150, 500, 50);
+        bestScoreLabel.setText("BEST SCORE IS: " + bestScore);
         bestScoreLabel.setForeground(Color.BLACK);
         bestScoreLabel.setFont(backTo1982.deriveFont(Font.BOLD, 25));
         bestScoreLabel.setVerticalAlignment(JLabel.CENTER);
         bestScoreLabel.setHorizontalAlignment(JLabel.CENTER);
+
+
+
     }
 
     public void setPlayAgainButton() {
@@ -88,19 +97,17 @@ public class OverviewFrame {
         playAgainButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,3,true));
         playAgainButton.setFont(new Font("Dialog", Font.BOLD,70));
         playAgainButton.setForeground(Color.BLACK);
-        playAgainButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource()==playAgainButton) {
-                    for (int i = 0; i<ButtonPanel.buttons.length; i++) {
-                        ButtonPanel.buttons[i].setText("");
-                    }
-                    for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
-                        FinalWordPanel.buttonList.get(j).setText("");
-                    }
-                    GamePanel.score = 0;
-                    GamePanel.scoreLabel.setText(String.valueOf(GamePanel.score));
-                    frame.dispose();
+        playAgainButton.addActionListener(e -> {
+            if (e.getSource()==playAgainButton) {
+                for (int i = 0; i<ButtonPanel.buttons.length; i++) {
+                    ButtonPanel.buttons[i].setText("");
                 }
+                for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
+                    FinalWordPanel.buttonList.get(j).setText("");
+                }
+                GamePanel.score = 0;
+                GamePanel.scoreLabel.setText(String.valueOf(GamePanel.score));
+                frame.dispose();
             }
         });
     }
@@ -115,11 +122,14 @@ public class OverviewFrame {
         homeButton.setFont(new Font("Dialog", Font.BOLD,60));
         homeButton.setForeground(Color.BLACK);
 
-        homeButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource()==homeButton) {
-                    frame.dispose();
+        homeButton.addActionListener(e -> {
+            if (e.getSource()==homeButton) {
+                for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
+                    FinalWordPanel.buttonList.get(j).setText("");
                 }
+                GamePanel.score = 0;
+                GamePanel.scoreLabel.setText(String.valueOf(GamePanel.score));
+                frame.dispose();
             }
         });
     }

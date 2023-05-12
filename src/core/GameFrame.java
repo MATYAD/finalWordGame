@@ -24,7 +24,9 @@ public class GameFrame {
         frame.setTitle("WordGame");
         frame.setLocationRelativeTo(null);
 
+        //adding welcomePanel to frame
         frame.add(welcomePanel);
+        //adds playButton functionality
         welcomePanel.playButton.addActionListener(e -> {
             if (e.getSource()==welcomePanel.playButton) {
                 welcomePanel.setVisible(false);
@@ -33,18 +35,22 @@ public class GameFrame {
 
             }
         });
-
+        //adds backButton functionality
         GamePanel.backButton.addActionListener(e -> {
             if (e.getSource()==GamePanel.backButton) {
+                //deleting buttons
                 for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
                     FinalWordPanel.buttonList.get(i).setText("");
-                    gamePanel.setVisible(false);
-                    welcomePanel.setVisible(true);
-                    GamePanel.startButton.setEnabled(true);
                 }
+                GamePanel.score = 0;
+                GamePanel.scoreLabel.setText(String.valueOf(GamePanel.score));
+                gamePanel.setVisible(false);
+                welcomePanel.setVisible(true);
+                GamePanel.startButton.setEnabled(true);
             }
         });
 
+        //adds homeButton functionality
         OverviewFrame.homeButton.addActionListener(e -> {
             if (e.getSource()==OverviewFrame.homeButton) {
                 gamePanel.setVisible(false);

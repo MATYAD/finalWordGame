@@ -15,7 +15,7 @@ public class JSliderUI extends BasicSliderUI {
     }
 
     protected Dimension getThumbSize() {
-        return new Dimension(20,20);
+        return new Dimension(17,17);
     }
 
     public void paintThumb(Graphics g) {

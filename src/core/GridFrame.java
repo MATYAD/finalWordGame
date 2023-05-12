@@ -1,6 +1,10 @@
 package core;
 
 import javax.swing.*;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -10,6 +14,8 @@ public class GridFrame implements ActionListener {
     Font backTo1982;
     JFrame frame = new JFrame();
     ImageIcon icon = new ImageIcon("src/res/Icon.png");
+    PlainDocument xDocument = new PlainDocument();
+    PlainDocument yDocument = new PlainDocument();
     public static JTextField xTextField = new JTextField();
     JLabel xLabel = new JLabel();
     JLabel yLabel = new JLabel();
@@ -30,6 +36,7 @@ public class GridFrame implements ActionListener {
         frame.setResizable(false);
         frame.setVisible(true);
 
+        //setting up the Font
         try {
             InputStream is = getClass().getResourceAsStream("/res/backTo1982.TTF");
             assert is != null;
@@ -54,7 +61,31 @@ public class GridFrame implements ActionListener {
         frame.add(setButton);
 
     }
-
+    //setting xDocument
+    public void setXDocument() {
+        xDocument.setDocumentFilter(new DocumentFilter() {
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+                String newText = currentText.substring(0, offset) + text + currentText.substring(offset + length);
+                if ((newText.length() <= 1) && newText.matches("\\d*")) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+    }
+    //setting yDocument
+    public void setYDocument() {
+        yDocument.setDocumentFilter(new DocumentFilter() {
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                String currentText = fb.getDocument().getText(0, fb.getDocument().getLength());
+                String newText = currentText.substring(0, offset) + text + currentText.substring(offset + length);
+                if ((newText.length() <= 1) && newText.matches("\\d*")) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+    }
+    //setting xTextField
     public void setXTextField() {
         xTextField.setBounds(275,150,100,50);
         xTextField.setText("4");
@@ -72,8 +103,10 @@ public class GridFrame implements ActionListener {
                 }
             }
         });
+        setXDocument();
+        xTextField.setDocument(xDocument);
     }
-
+    //setting yTextField
     public void setYTextField() {
         yTextField.setBounds(275,250,100,50);
         yTextField.setText("4");
@@ -83,7 +116,6 @@ public class GridFrame implements ActionListener {
         yTextField.setForeground(Color.BLACK);
         yTextField.setCaretColor(Color.WHITE);
 
-
         yTextField.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 char input = e.getKeyChar();
@@ -92,8 +124,10 @@ public class GridFrame implements ActionListener {
                 }
             }
         });
+        setYDocument();
+        yTextField.setDocument(yDocument);
     }
-
+    //setting xLabel
     public void setXLabel() {
         xLabel.setText("X size");
         xLabel.setVerticalAlignment(JLabel.CENTER);
@@ -103,7 +137,7 @@ public class GridFrame implements ActionListener {
         xLabel.setBounds(125,150,125,50);
 
     }
-
+    //setting yLabel
     public void setYLabel() {
         yLabel.setText("Y size");
         yLabel.setVerticalAlignment(JLabel.CENTER);
@@ -113,7 +147,7 @@ public class GridFrame implements ActionListener {
         yLabel.setBounds(125,250,125,50);
 
     }
-
+    //setting textLabel
     public void setTextLabel() {
         textLabel.setText("Choose your grid size");
         textLabel.setVerticalAlignment(JLabel.CENTER);
@@ -123,7 +157,7 @@ public class GridFrame implements ActionListener {
         textLabel.setBounds(25,0,550,150);
 
     }
-
+    //setting setButton
     public void setSetButton() {
         setButton.addActionListener(this);
         setButton.setFocusable(false);
@@ -138,7 +172,7 @@ public class GridFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==setButton) {
+        if (e.getSource()==setButton) {//setting what happened when the button was clicked
             frame.dispose();
 
             if (yTextField.getText().isEmpty()) {

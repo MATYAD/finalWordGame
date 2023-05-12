@@ -10,6 +10,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.TimerTask;
 
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -79,12 +80,14 @@ public class GamePanel extends JPanel implements ActionListener {
         startButton.setHorizontalAlignment(JButton.CENTER);
         startButton.setFocusable(false);
         startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,5,true));
-        startButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource()==startButton) {
-                    startButton.setEnabled(false);
-                    startCountdown();
+        startButton.addActionListener(e -> {
+            if (e.getSource()==startButton) {
+                startButton.setEnabled(false);
+                for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
+                    FinalWordPanel.buttonList.get(j).setEnabled(true);
                 }
+                checkButton.setEnabled(true);
+                startCountdown();
             }
         });
     }
@@ -152,6 +155,8 @@ public class GamePanel extends JPanel implements ActionListener {
                             scanner.close();
                             return;
                         }
+
+
                     }
                     for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
                         FinalWordPanel.buttonList.get(i).setText("");
@@ -193,6 +198,26 @@ public class GamePanel extends JPanel implements ActionListener {
         timer.start();
     }
 
+    public void bestScore() {
+        try {
+            FileReader reader = new FileReader("src/res/bestScore.txt");
+            BufferedReader buffReader = new BufferedReader(reader);
+            String line = buffReader.readLine();
+            int bestScore = Integer.parseInt(line);
+            if (bestScore < score) {
+                FileWriter writer = new FileWriter("src/res/bestScore.txt");
+                BufferedWriter buffWriter = new BufferedWriter(writer);
+                buffWriter.write(Integer.toString(score));
+                OverviewFrame.bestScoreLabel.setText(String.valueOf(bestScore));
+                buffWriter.close();
+            }
+            buffReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public void actionPerformed(ActionEvent e) {
 
         remainingTime--;
@@ -201,8 +226,16 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (remainingTime == 0) {
             startButton.setEnabled(true);
+            for (int i = 0; i<ButtonPanel.buttons.length; i++) {
+                ButtonPanel.buttons[i].setEnabled(false);
+            }
+            for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
+                FinalWordPanel.buttonList.get(j).setEnabled(false);
+            }
+            checkButton.setEnabled(false);
             OverviewFrame frame = new OverviewFrame();
             timer.stop();
+            bestScore();
         }
 
         if (e.getSource()==exitButton) {
