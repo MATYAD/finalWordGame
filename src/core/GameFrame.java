@@ -1,5 +1,6 @@
 package core;
 
+import core.gamePanel.ButtonPanel;
 import core.gamePanel.FinalWordPanel;
 import core.gamePanel.GamePanel;
 import core.gamePanel.OverviewFrame;
@@ -47,6 +48,7 @@ public class GameFrame {
                 gamePanel.setVisible(false);
                 welcomePanel.setVisible(true);
                 GamePanel.startButton.setEnabled(true);
+                ButtonPanel.numOfButtons = 0;
             }
         });
 

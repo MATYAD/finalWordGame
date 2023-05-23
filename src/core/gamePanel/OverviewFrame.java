@@ -99,8 +99,8 @@ public class OverviewFrame {
         playAgainButton.setForeground(Color.BLACK);
         playAgainButton.addActionListener(e -> {
             if (e.getSource()==playAgainButton) {
-                for (int i = 0; i<ButtonPanel.buttons.length; i++) {
-                    ButtonPanel.buttons[i].setText("");
+                for (int i = 0; i<ButtonPanel.buttons.size(); i++) {
+                    ButtonPanel.buttons.get(i).setText("");
                 }
                 for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
                     FinalWordPanel.buttonList.get(j).setText("");

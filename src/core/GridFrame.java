@@ -88,7 +88,7 @@ public class GridFrame implements ActionListener {
     //setting xTextField
     public void setXTextField() {
         xTextField.setBounds(275,150,100,50);
-        xTextField.setText("4");
+        xTextField.setText("");
         xTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK,3,true));
         xTextField.setBackground(Color.DARK_GRAY);
         xTextField.setFont(backTo1982.deriveFont(Font.BOLD,25));
@@ -109,7 +109,7 @@ public class GridFrame implements ActionListener {
     //setting yTextField
     public void setYTextField() {
         yTextField.setBounds(275,250,100,50);
-        yTextField.setText("4");
+        yTextField.setText("");
         yTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK,3,true));
         yTextField.setBackground(Color.DARK_GRAY);
         yTextField.setFont(backTo1982.deriveFont(Font.BOLD,25));

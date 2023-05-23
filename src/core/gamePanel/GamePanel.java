@@ -226,8 +226,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (remainingTime == 0) {
             startButton.setEnabled(true);
-            for (int i = 0; i<ButtonPanel.buttons.length; i++) {
-                ButtonPanel.buttons[i].setEnabled(false);
+            for (int i = 0; i<ButtonPanel.buttons.size(); i++) {
+                ButtonPanel.buttons.get(i).setEnabled(false);
             }
             for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
                 FinalWordPanel.buttonList.get(j).setEnabled(false);
