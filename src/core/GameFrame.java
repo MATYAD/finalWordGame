@@ -1,6 +1,5 @@
 package core;
 
-import core.gamePanel.ButtonPanel;
 import core.gamePanel.FinalWordPanel;
 import core.gamePanel.GamePanel;
 import core.gamePanel.OverviewFrame;
@@ -28,8 +27,8 @@ public class GameFrame {
         //adding welcomePanel to frame
         frame.add(welcomePanel);
         //adds playButton functionality
-        welcomePanel.playButton.addActionListener(e -> {
-            if (e.getSource()==welcomePanel.playButton) {
+        WelcomePanel.playButton.addActionListener(e -> {
+            if (e.getSource()== WelcomePanel.playButton) {
                 welcomePanel.setVisible(false);
                 gamePanel = new GamePanel();
                 frame.add(gamePanel);
@@ -48,7 +47,7 @@ public class GameFrame {
                 gamePanel.setVisible(false);
                 welcomePanel.setVisible(true);
                 GamePanel.startButton.setEnabled(true);
-                ButtonPanel.numOfButtons = 0;
+
             }
         });
 

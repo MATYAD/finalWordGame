@@ -10,7 +10,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.TimerTask;
 
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -28,10 +27,12 @@ public class GamePanel extends JPanel implements ActionListener {
     public JButton exitButton = new JButton("EXIT");
     public static JButton backButton = new JButton("BACK");
     public int remainingTime;
+
     public ArrayList<String> letters = new ArrayList<>();
     public ArrayList<String> usedWords = new ArrayList<>();
     boolean containsWord;
     public String finalWord;
+
     public static int score = 0;
 
     public GamePanel() {
@@ -80,6 +81,7 @@ public class GamePanel extends JPanel implements ActionListener {
         startButton.setHorizontalAlignment(JButton.CENTER);
         startButton.setFocusable(false);
         startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,5,true));
+        //setting what happened when startButton is clicked
         startButton.addActionListener(e -> {
             if (e.getSource()==startButton) {
                 startButton.setEnabled(false);
@@ -128,17 +130,19 @@ public class GamePanel extends JPanel implements ActionListener {
         checkButton.addActionListener(e -> {
             if (e.getSource()==checkButton) {
                 for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
+                    //finding and adding users letters to the arraylist
                     if (FinalWordPanel.buttonList.get(i).getText().matches("[A-Z]")) {
                         letters.add(i,FinalWordPanel.buttonList.get(i).getText());
                     }
                 }
-                StringBuffer stringBuffer = new StringBuffer();
+                //making word from each letters
+                StringBuilder stringBuffer = new StringBuilder();
                 for (String letter : letters) {
                     stringBuffer.append(letter);
                 }
                 finalWord = stringBuffer.toString();
                 letters.clear();
-
+                //checking if the word is valid
                 try {
                     File wordsFile = new File("src/res/words.txt");
                     Scanner scanner = new Scanner(wordsFile);
@@ -146,18 +150,18 @@ public class GamePanel extends JPanel implements ActionListener {
                     while (scanner.hasNextLine()) {
                         String line = scanner.nextLine();
                         if ((line.contains(finalWord) && containsWord == usedWords.contains(finalWord) && line.length() == finalWord.length())) {
-                            score += finalWord.length()*100;
+                            score += finalWord.length()*100; //adding score
                             scoreLabel.setText(String.valueOf(score));
                             usedWords.add(finalWord);
+                            //deleting text from the buttons
                             for (int i = 0; i <FinalWordPanel.buttonList.size(); i++) {
                                 FinalWordPanel.buttonList.get(i).setText("");
                             }
                             scanner.close();
                             return;
                         }
-
-
                     }
+
                     for (int i=0; i<FinalWordPanel.buttonList.size(); i++) {
                         FinalWordPanel.buttonList.get(i).setText("");
                     }
@@ -193,11 +197,12 @@ public class GamePanel extends JPanel implements ActionListener {
         timeLabel.setFont(backTo1982.deriveFont(Font.BOLD,25));
 
     }
-    public  void startCountdown() {
+    //gets value from slider and starts timer
+    public void startCountdown() {
         remainingTime = WelcomePanel.slider.getValue();
         timer.start();
     }
-
+    //checks the current best score and rewrites the best score if the user beats it
     public void bestScore() {
         try {
             FileReader reader = new FileReader("src/res/bestScore.txt");
@@ -219,11 +224,11 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-
+        //time settings
         remainingTime--;
         timerBar.setValue(remainingTime);
         timeLabel.setText(String.valueOf(remainingTime));
-
+        //setting what happened when time is 0
         if (remainingTime == 0) {
             startButton.setEnabled(true);
             for (int i = 0; i<ButtonPanel.buttons.size(); i++) {

@@ -97,13 +97,14 @@ public class OverviewFrame {
         playAgainButton.setBorder(BorderFactory.createLineBorder(Color.BLACK,3,true));
         playAgainButton.setFont(new Font("Dialog", Font.BOLD,70));
         playAgainButton.setForeground(Color.BLACK);
+
         playAgainButton.addActionListener(e -> {
             if (e.getSource()==playAgainButton) {
                 for (int i = 0; i<ButtonPanel.buttons.size(); i++) {
-                    ButtonPanel.buttons.get(i).setText("");
+                    ButtonPanel.buttons.get(i).setText(""); //deleting text in buttons
                 }
                 for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
-                    FinalWordPanel.buttonList.get(j).setText("");
+                    FinalWordPanel.buttonList.get(j).setText(""); //deleting text in buttons
                 }
                 GamePanel.score = 0;
                 GamePanel.scoreLabel.setText(String.valueOf(GamePanel.score));
@@ -125,7 +126,7 @@ public class OverviewFrame {
         homeButton.addActionListener(e -> {
             if (e.getSource()==homeButton) {
                 for (int j = 0; j<FinalWordPanel.buttonList.size(); j++) {
-                    FinalWordPanel.buttonList.get(j).setText("");
+                    FinalWordPanel.buttonList.get(j).setText(""); //deleting text in buttons
                 }
                 GamePanel.score = 0;
                 GamePanel.scoreLabel.setText(String.valueOf(GamePanel.score));

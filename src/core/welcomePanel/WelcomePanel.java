@@ -15,7 +15,8 @@ public class WelcomePanel extends JPanel implements ActionListener {
     Font backTo1982;
     private final JLabel gameNameLabel = new JLabel();
     private final JButton exitButton = new JButton();
-    public JButton playButton = new JButton();
+    public static JButton playButton = new JButton();
+
     public static JSlider slider = new JSlider(20,120,60);
     JLabel timeLabel = new JLabel("SET TIME");
     private final JButton gridButton = new JButton();
@@ -99,7 +100,6 @@ public class WelcomePanel extends JPanel implements ActionListener {
         heartLabel.setBounds(825,550,125,125);
         heartLabel.setFont(backTo1982.deriveFont(Font.BOLD,70));
         heartLabel.setForeground(Color.BLACK);
-
     }
 
     public void setExitButton() {
